@@ -61,3 +61,9 @@ func (ab *AtomicBool) SetToIf(old, new bool) (set bool) {
 	}
 	return atomic.CompareAndSwapInt32((*int32)(ab), o, n)
 }
+
+// TestAndSet sets the Boolean to true only if it is false, and returns true.
+// If the value was already true, it cannot Set it, and returns false.
+func (ab *AtomicBool) TestAndSet() bool {
+	return atomic.CompareAndSwapInt32((*int32)(ab), 0, 1)
+}

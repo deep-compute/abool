@@ -49,6 +49,16 @@ func TestBool(t *testing.T) {
 	if set := v.SetToIf(false, true); !set || !v.IsSet() {
 		t.Fatal("AtomicBool.SetTo(false, true) failed")
 	}
+
+	v.SetTo(false)
+	if set := v.TestAndSet(); !set || !v.IsSet() {
+		t.Fatal("AtomicBool.TestAndSet() failed to set when it was unset")
+	}
+
+	v.SetTo(true)
+	if set := v.TestAndSet(); set {
+		t.Fatal("AtomicBool.TestAndSet() set the value when it was already set")
+	}
 }
 
 func TestRace(t *testing.T) {
